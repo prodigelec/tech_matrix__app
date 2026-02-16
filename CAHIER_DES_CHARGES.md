@@ -21,6 +21,10 @@
     *   **Anti-CSRF (Cross-Site Request Forgery) :** Tokens CSRF sur tous les formulaires et appels API.
     *   **Anti-Injection :** Utilisation de l'ORM Prisma qui échappe nativement les requêtes SQL/NoSQL.
     *   **En-têtes de Sécurité HTTP :** Configuration stricte (HSTS, Content-Security-Policy, X-Frame-Options) via Helmet.js.
+*   **Conformité RGPD (France/Europe) :**
+    *   **Droit à l'oubli / Rectification :** Procédures pour les données techniciens et clients.
+    *   **Minimisation des données :** Collecte uniquement des données nécessaires à l'intervention.
+    *   **Consentement :** Pour la géolocalisation (activable/désactivable par le technicien hors horaires).
 *   **Protection Infrastructure :**
     *   **DDoS Mitigation :** Utilisation d'un WAF (Web Application Firewall) en amont (ex: Cloudflare).
     *   **Rate Limiting Global :** Limitation du nombre de requêtes par IP/minute pour éviter la surcharge.
@@ -70,6 +74,16 @@
 *   **Accès Documentation :** Manuels techniques, vues éclatées, guides de dépannage (PDFs).
 *   **Historique Machine :** Voir les précédentes interventions sur cette machine spécifique.
 
+### 2.7 Interface Responsable SAV (Back-Office / Admin)
+*   **Gestion des Interventions :**
+    *   **Création de Mission :** Formulaire complet (Client, Machine, Panne, Urgence).
+    *   **Dispatch Intelligent :** Assignation manuelle ou semi-automatique (basée sur la proximité technicien et compétences).
+    *   **Suivi en Temps Réel :** Vue globale "Map" de tous les techniciens et état des interventions.
+*   **Gestion des Ressources :**
+    *   **Techniciens :** Création de comptes, gestion des plannings/congés.
+    *   **Base Clients & Machines :** CRUD (Create, Read, Update, Delete) complet.
+    *   **Rapports & KPI :** Analyse des temps d'intervention, taux de résolution.
+
 ## 3. Fonctionnalités Avancées (V2)
 *   **Mode Hors Ligne (Offline) :** Consultation et saisie possibles sans réseau (synchro dès retour connexion).
 *   **Gestion de Stock Véhicule :** Décrémentation automatique des pièces, alertes seuil bas.
@@ -95,3 +109,9 @@
     *   `/interventions/[id]` : Détail et actions.
 *   `/equipements` : Recherche et documentation.
 *   `/profil` : Réglages et infos personnelles.
+
+### 5.2 Espace Administrateur (SAV)
+*   `/admin/dashboard` : Vue globale et KPI.
+*   `/admin/planning` : Calendrier et Dispatch.
+*   `/admin/techniciens` : Gestion des équipes.
+*   `/admin/clients` : Base de données clients/machines.
