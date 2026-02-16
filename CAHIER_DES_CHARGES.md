@@ -93,7 +93,7 @@
 ## 4. Exigences Techniques & UX
 *   **Design System & UI :**
     *   **Framework CSS :** TailwindCSS.
-    *   **Identité Visuelle :** Couleurs officielles Matrix Fitness (Dominance Noir/Gris carbone, accents Blanc et Jaune/Or Matrix).
+    *   **Identité Visuelle :** Couleurs officielles Matrix Fitness (Noir Mat, Gris Argent "Iced Silver", Blanc, accents Rouge).
     *   **Typographie :** Polices modernes, lisibles et professionnelles (ex: Roboto, Inter ou Montserrat).
     *   **Responsive :** "Mobile First" absolu pour usage sur smartphone/tablette terrain.
 *   **Stack Technique :**
