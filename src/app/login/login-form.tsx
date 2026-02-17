@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react'
 import { login, LoginState } from '@/app/actions/auth'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Wrench } from 'lucide-react'
 
 const initialState: LoginState = {
   message: '',
@@ -14,10 +14,16 @@ export function LoginForm() {
 
   return (
     <form action={formAction} className="space-y-6">
+      {/* Technician Badge */}
+      <div className="flex items-center justify-center space-x-2 pb-4 border-b border-matrix-border">
+        <Wrench className="h-5 w-5 text-green-500" />
+        <span className="text-sm font-medium text-gray-300">Authentification Technicien</span>
+      </div>
+
       {/* Email */}
       <div>
         <label htmlFor="email" className="matrix-label">
-          Email
+          Email Professionnel
         </label>
         <div className="mt-1">
           <input
@@ -79,7 +85,10 @@ export function LoginForm() {
               Connexion en cours...
             </>
           ) : (
-            'Se connecter'
+            <>
+              <Wrench className="mr-2 h-4 w-4" />
+              Accéder à mon espace
+            </>
           )}
         </button>
       </div>

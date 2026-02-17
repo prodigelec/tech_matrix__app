@@ -10,11 +10,17 @@ export default function LoginPage() {
           </div>
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold tracking-tight text-white">
-          Matrix Tech Web
+          Espace Technicien Matrix
         </h2>
         <p className="mt-2 text-center text-sm text-gray-400">
-          Portail de gestion des interventions techniques
+          Gestion des interventions techniques
         </p>
+        <div className="mt-2 flex items-center justify-center">
+          <div className="flex items-center space-x-2">
+            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+            <span className="text-xs text-gray-500 uppercase tracking-wider">Accès Terrain</span>
+          </div>
+        </div>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -22,9 +28,9 @@ export default function LoginPage() {
           <LoginForm />
         </div>
       </div>
-      
+
       <div className="mt-8 text-center text-xs text-gray-500">
-        &copy; 2024 Matrix Fitness France. Tous droits réservés.
+        &copy; 2026 Matrix Fitness France. Tous droits réservés.
       </div>
     </div>
   )

@@ -11,22 +11,37 @@ export async function middleware(request: NextRequest) {
 
   // 1. Protect Admin Routes
   if (path.startsWith('/admin')) {
+    // Allow access to /admin/login without authentication
+    if (path === '/admin/login') {
+      // If already logged in as admin, redirect to admin dashboard
+      if (payload && payload.role === 'ADMIN') {
+        return NextResponse.redirect(new URL('/admin', request.url))
+      }
+      // If logged in as non-admin, redirect to their dashboard
+      if (payload && payload.role !== 'ADMIN') {
+        return NextResponse.redirect(new URL('/dashboard', request.url))
+      }
+      // Allow unauthenticated access to admin login page
+      return NextResponse.next()
+    }
+
+    // For all other /admin/* routes, require authentication
     if (!payload) {
-      return NextResponse.redirect(new URL('/login', request.url))
+      return NextResponse.redirect(new URL('/admin/login', request.url))
     }
     if (payload.role !== 'ADMIN') {
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
   }
 
-  // 2. Protect Dashboard Routes (and other protected areas)
+  // 2. Protect Dashboard Routes (Technicians and other authenticated users)
   if (path.startsWith('/dashboard')) {
     if (!payload) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
   }
 
-  // 3. Redirect authenticated users away from Login
+  // 3. Redirect authenticated users away from Login pages
   if (path === '/login' && payload) {
     if (payload.role === 'ADMIN') {
       return NextResponse.redirect(new URL('/admin', request.url))

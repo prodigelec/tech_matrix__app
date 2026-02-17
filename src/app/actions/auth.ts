@@ -28,11 +28,11 @@ export async function login(prevState: LoginState, formData: FormData): Promise<
   if (error) {
     const formattedErrors: Record<string, string[]> = {}
     error.details.forEach((detail) => {
-        const key = detail.path[0] as string
-        if (!formattedErrors[key]) {
-            formattedErrors[key] = []
-        }
-        formattedErrors[key].push(detail.message)
+      const key = detail.path[0] as string
+      if (!formattedErrors[key]) {
+        formattedErrors[key] = []
+      }
+      formattedErrors[key].push(detail.message)
     })
     return { errors: formattedErrors }
   }
@@ -43,7 +43,7 @@ export async function login(prevState: LoginState, formData: FormData): Promise<
     const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000)
     const recentFailures = await prisma.auditLog.count({
       where: {
-        action: 'LOGIN_FAILED',
+        action: 'TECH_LOGIN_FAILED',
         details: { contains: validatedEmail },
         createdAt: { gte: fifteenMinutesAgo }
       }
@@ -52,8 +52,8 @@ export async function login(prevState: LoginState, formData: FormData): Promise<
     if (recentFailures >= 5) {
       await prisma.auditLog.create({
         data: {
-          action: 'LOGIN_BLOCKED',
-          details: `Rate limit exceeded for ${validatedEmail}`,
+          action: 'TECH_LOGIN_BLOCKED',
+          details: `Rate limit exceeded for technician: ${validatedEmail}`,
           ipAddress: ip,
           userAgent: userAgent,
         }
@@ -72,8 +72,8 @@ export async function login(prevState: LoginState, formData: FormData): Promise<
       // Log failed attempt (generic message for security, but specific log)
       await prisma.auditLog.create({
         data: {
-          action: 'LOGIN_FAILED',
-          details: `User not found: ${validatedEmail}`,
+          action: 'TECH_LOGIN_FAILED',
+          details: `Technician login attempt - User not found: ${validatedEmail}`,
           ipAddress: ip,
           userAgent: userAgent,
         }
@@ -85,10 +85,10 @@ export async function login(prevState: LoginState, formData: FormData): Promise<
     }
 
     if (!user.isActive) {
-       await prisma.auditLog.create({
+      await prisma.auditLog.create({
         data: {
-          action: 'LOGIN_FAILED',
-          details: `Inactive user attempted login: ${validatedEmail}`,
+          action: 'TECH_LOGIN_FAILED',
+          details: `Inactive technician attempted login: ${validatedEmail}`,
           ipAddress: ip,
           userAgent: userAgent,
           userId: user.id
@@ -102,10 +102,10 @@ export async function login(prevState: LoginState, formData: FormData): Promise<
     // 4. Verify password
     const passwordsMatch = await bcrypt.compare(validatedPassword, user.passwordHash)
     if (!passwordsMatch) {
-       await prisma.auditLog.create({
+      await prisma.auditLog.create({
         data: {
-          action: 'LOGIN_FAILED',
-          details: `Invalid password for: ${validatedEmail}`,
+          action: 'TECH_LOGIN_FAILED',
+          details: `Invalid password for technician: ${validatedEmail}`,
           ipAddress: ip,
           userAgent: userAgent,
           userId: user.id
@@ -127,8 +127,8 @@ export async function login(prevState: LoginState, formData: FormData): Promise<
 
     await prisma.auditLog.create({
       data: {
-        action: 'LOGIN_SUCCESS',
-        details: `User logged in: ${validatedEmail}`,
+        action: 'TECH_LOGIN_SUCCESS',
+        details: `Technician logged in: ${validatedEmail}`,
         ipAddress: ip,
         userAgent: userAgent,
         userId: user.id
@@ -144,6 +144,13 @@ export async function login(prevState: LoginState, formData: FormData): Promise<
       sameSite: 'lax',
     })
 
+    // Redirect based on user role
+    if (user.role === 'ADMIN') {
+      redirect('/admin')
+    } else {
+      redirect('/dashboard')
+    }
+
   } catch (error) {
     console.error('Login error:', error)
     return {
@@ -151,7 +158,8 @@ export async function login(prevState: LoginState, formData: FormData): Promise<
     }
   }
 
-  redirect('/dashboard')
+  // This should never be reached due to redirects above
+  return { message: 'Connexion réussie' }
 }
 
 export async function logout() {

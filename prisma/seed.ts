@@ -25,7 +25,7 @@ async function main() {
   }
 
   // 1. Create Admin User
-  const adminPassword = await bcrypt.hash('admin123', 10)
+  const adminPassword = await bcrypt.hash('Admin@Matrix2024!', 10)
   // Check if admin exists first
   const existingAdmin = await prisma.user.findUnique({
     where: { email: 'admin@matrix-tech.fr' }
@@ -55,7 +55,7 @@ async function main() {
   console.log(`Created/Updated admin: ${admin.email}`)
 
   // 2. Create Technician User
-  const techPassword = await bcrypt.hash('tech123', 10)
+  const techPassword = await bcrypt.hash('Tech@Matrix2024!', 10)
   const existingTech = await prisma.user.findUnique({
     where: { email: 'tech@matrix-tech.fr' }
   })
