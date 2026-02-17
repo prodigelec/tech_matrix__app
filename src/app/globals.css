@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+  
+  --color-matrix-black: #000000;
+  --color-matrix-dark: #111827; /* gray-900 */
+  --color-matrix-input-bg: #1f2937; /* gray-800 */
+  --color-matrix-red: #dc2626; /* red-600 */
+  --color-matrix-red-hover: #b91c1c; /* red-700 */
+  --color-matrix-border: #374151; /* gray-700 */
+  --color-matrix-border-card: #1f2937; /* gray-800 */
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000000;
+    --foreground: #ffffff;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+  .matrix-bg-primary {
+    @apply bg-matrix-black text-white;
+  }
+
+  .matrix-card {
+    @apply bg-matrix-dark border border-matrix-border-card shadow-xl sm:rounded-lg;
+  }
+
+  .matrix-input {
+    @apply block w-full appearance-none rounded-md border border-matrix-border bg-matrix-input-bg text-white px-3 py-2 placeholder-gray-500 shadow-sm transition-colors focus:border-matrix-red focus:outline-none focus:ring-matrix-red sm:text-sm;
+  }
+
+  .matrix-label {
+    @apply block text-sm font-medium text-gray-300;
+  }
+
+  .matrix-btn-primary {
+    @apply flex w-full justify-center rounded-md border border-transparent bg-matrix-red py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-matrix-red-hover focus:outline-none focus:ring-2 focus:ring-matrix-red focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all;
+  }
+
+  .matrix-error-text {
+    @apply mt-2 text-sm text-red-500;
+  }
+  
+  .matrix-error-box {
+    @apply rounded-md bg-red-900/20 p-4 border border-red-900/50;
+  }
+
+  .matrix-logo-box {
+    @apply h-16 w-16 bg-white text-matrix-black flex items-center justify-center font-bold text-3xl rounded-lg shadow-lg;
+  }
+}
